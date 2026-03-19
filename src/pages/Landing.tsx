@@ -1,10 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowRight, CheckCircle2, Phone, Calendar, Shield, Activity, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowRight, CheckCircle2, Phone, Calendar, Shield, Activity, Star, X } from 'lucide-react';
 import { Button } from '@/src/components/ui/button';
 
 export default function Landing() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleBookingSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsModalOpen(false);
+    navigate('/dashboard');
+  };
+
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans">
       {/* Navigation */}
@@ -24,9 +33,12 @@ export default function Landing() {
             </div>
             <div className="flex items-center gap-4">
               <Link to="/dashboard">
-                <Button variant="ghost" className="hidden sm:flex">Staff Login</Button>
+                <Button variant="ghost" className="px-2 sm:px-4 text-sm">Staff Login</Button>
               </Link>
-              <Button className="rounded-full px-6">Book Appointment</Button>
+              <Button className="rounded-full px-4 sm:px-6 text-sm" onClick={() => setIsModalOpen(true)}>
+                <span className="hidden sm:inline">Book Appointment</span>
+                <span className="sm:hidden">Book</span>
+              </Button>
             </div>
           </div>
         </div>
@@ -54,7 +66,7 @@ export default function Landing() {
                 Led by Dr. Anju Rana (BDS, MDS, MISP, MIDA). Experience world-class dental care in a relaxing environment. Our expert team uses the latest technology to ensure your smile is healthy and bright.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="rounded-full text-base h-14 px-8">
+                <Button size="lg" className="rounded-full text-base h-14 px-8" onClick={() => setIsModalOpen(true)}>
                   Book Your Visit <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
                 <Button size="lg" variant="outline" className="rounded-full text-base h-14 px-8">
@@ -102,7 +114,7 @@ export default function Landing() {
                     <p className="text-slate-900 font-bold">Tomorrow, 10:00 AM</p>
                   </div>
                 </div>
-                <Button className="w-full" variant="secondary">Reserve Time</Button>
+                <Button className="w-full" variant="secondary" onClick={() => setIsModalOpen(true)}>Reserve Time</Button>
               </div>
             </motion.div>
           </div>
@@ -187,11 +199,49 @@ export default function Landing() {
           <p className="text-emerald-100 text-lg mb-10 max-w-2xl mx-auto">
             Join thousands of happy patients who trust us with their dental care. Book your first appointment today and get a complimentary consultation.
           </p>
-          <Button size="lg" className="bg-white text-emerald-900 hover:bg-slate-100 rounded-full h-14 px-10 text-lg font-semibold">
+          <Button size="lg" className="bg-white text-emerald-900 hover:bg-slate-100 rounded-full h-14 px-10 text-lg font-semibold" onClick={() => setIsModalOpen(true)}>
             Schedule Appointment
           </Button>
         </div>
       </section>
+
+      {/* Booking Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
+            >
+              <div className="p-6 border-b border-slate-100 flex justify-between items-center">
+                <h3 className="text-xl font-bold text-slate-900">Book Appointment</h3>
+                <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <form onSubmit={handleBookingSubmit} className="p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+                  <input required type="text" className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="John Doe" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Contact Number</label>
+                  <input required type="tel" className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="(555) 123-4567" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Email Address (Optional)</label>
+                  <input type="email" className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="john@example.com" />
+                </div>
+                <div className="pt-2">
+                  <Button type="submit" className="w-full">Confirm Booking</Button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
