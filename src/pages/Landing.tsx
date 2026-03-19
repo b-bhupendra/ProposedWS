@@ -176,16 +176,24 @@ export default function Landing() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              {/* Placeholders for the uploaded images */}
-              <div className="bg-slate-100 rounded-2xl aspect-square flex items-center justify-center p-4 text-center text-slate-400 border-2 border-dashed border-slate-200">
-                <p>Upload Storefront Image Here</p>
-              </div>
-              <div className="bg-slate-100 rounded-2xl aspect-square flex items-center justify-center p-4 text-center text-slate-400 border-2 border-dashed border-slate-200">
-                <p>Upload Certificate Image Here</p>
-              </div>
-              <div className="bg-slate-100 rounded-2xl aspect-[2/1] col-span-2 flex items-center justify-center p-4 text-center text-slate-400 border-2 border-dashed border-slate-200">
-                <p>Upload Banner Image Here</p>
-              </div>
+              <img 
+                src="https://picsum.photos/seed/smiling-people/600/600" 
+                alt="Happy patients smiling" 
+                className="rounded-2xl aspect-square object-cover shadow-md"
+                referrerPolicy="no-referrer"
+              />
+              <img 
+                src="https://picsum.photos/seed/happy-patient/600/600" 
+                alt="Patient with a bright smile" 
+                className="rounded-2xl aspect-square object-cover shadow-md"
+                referrerPolicy="no-referrer"
+              />
+              <img 
+                src="https://picsum.photos/seed/group-smiling/1200/600" 
+                alt="Group of people smiling" 
+                className="rounded-2xl aspect-[2/1] col-span-2 object-cover shadow-md"
+                referrerPolicy="no-referrer"
+              />
             </div>
           </div>
         </div>
